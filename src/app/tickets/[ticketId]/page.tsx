@@ -1,7 +1,7 @@
 import Placeholder from "@/components/placeholder";
 import { Button } from "@/components/ui/button";
-import { initialTickets } from "@/data";
-import { TicketComponent } from "@/features/ticket/components/ticket-item";
+import { TicketItem } from "@/features/ticket/components/ticket-item";
+import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { ticketsPath } from "@/path";
 import Link from "next/link";
 
@@ -11,8 +11,8 @@ type TicketPageProps = {
   };
 };
 
-const TicketsPage = ({ params }: TicketPageProps) => {
-  const ticket = initialTickets.find((ticket) => ticket.id === params.ticketId);
+const TicketPage = async ({ params }: TicketPageProps) => {
+  const ticket = await getTicket(params.ticketId);
 
   if (!ticket) {
     return (
@@ -29,9 +29,9 @@ const TicketsPage = ({ params }: TicketPageProps) => {
 
   return (
     <div className="flex justify-center animate-fade-from-top">
-      <TicketComponent ticket={ticket} isDetail={true} />
+      <TicketItem ticket={ticket} isDetail={true} />
     </div>
   );
 };
 
-export default TicketsPage;
+export default TicketPage;
