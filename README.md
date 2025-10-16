@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-This project follows the course [Road to Next](https://rwieruch.teachable.com/courses/the-road-to-next).
+This project follows the course [The Road to Next](https://rwieruch.teachable.com/courses/the-road-to-next).
 
 ## Getting Started
 
