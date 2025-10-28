@@ -2,6 +2,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 This project follows the course [The Road to Next](https://rwieruch.teachable.com/courses/the-road-to-next).
 
+## Prerequisites
+
+Init prisma and generate client:
+
+```bash
+npx prisma init
+npx prisma generate
+```
+
 ## Getting Started
 
 First, run the development server:
