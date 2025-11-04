@@ -1,6 +1,6 @@
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
-import { homePath, ticketsPath } from "@/path";
+import { homePath, ticketsPath } from "@/paths";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { buttonVariants } from "./ui/button";
 
