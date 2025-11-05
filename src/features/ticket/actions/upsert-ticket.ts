@@ -3,17 +3,21 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import {
+  ActionState,
+  fromErrorToActionState,
+} from "@/components/form/utils/to-action-state";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 
 const upsertTicketSchema = z.object({
-  title: z.string().min(1).max(191),
-  content: z.string().min(1).max(1024),
+  title: z.string().min(1, { message: "Title is required" }).max(191),
+  content: z.string().min(1, { message: "Content is required" }).max(1024),
 });
 
 export const upsertTicket = async (
   id: string | undefined,
-  _actionState: { message: string; payload?: FormData },
+  _actionState: ActionState,
   formData: FormData
 ) => {
   try {
@@ -28,7 +32,7 @@ export const upsertTicket = async (
       update: data,
     });
   } catch (error) {
-    return { message: "Error creating ticket", payload: formData };
+    return fromErrorToActionState(error, formData);
   }
   revalidatePath(ticketsPath());
 
