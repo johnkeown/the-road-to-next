@@ -6,7 +6,7 @@ import { z } from "zod";
 import { setCookieByKey } from "@/actions/cookies";
 import {
   ActionState,
-  formErrorToActionState,
+  fromErrorToActionState,
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { prisma } from "@/lib/prisma";
@@ -44,7 +44,7 @@ export const upsertTicket = async (
       update: dbData,
     });
   } catch (error) {
-    return formErrorToActionState(error, formData);
+    return fromErrorToActionState(error, formData);
   }
 
   revalidatePath(ticketsPath());
