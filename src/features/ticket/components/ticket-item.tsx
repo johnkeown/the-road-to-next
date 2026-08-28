@@ -15,8 +15,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ticketEditPath, ticketPath } from "@/paths";
-import { TICKET_ICONS } from "../constants";
 import { toCurrencyFromCent } from "@/utils/currency";
+import { TICKET_ICONS } from "../constants";
 import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
