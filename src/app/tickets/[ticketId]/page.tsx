@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
-import { getTicket } from "@/features/ticket/queries/get-ticket";
+import { getTicket } from "@/features/auth/queries/get-ticket";
 
 type TicketPageProps = {
   params: Promise<{

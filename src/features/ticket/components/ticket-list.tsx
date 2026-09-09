@@ -1,4 +1,4 @@
-import { getTickets } from "../queries/get-tickets";
+import { getTickets } from "../../auth/queries/get-tickets";
 import { TicketItem } from "./ticket-item";
 
 const TicketList = async () => {
