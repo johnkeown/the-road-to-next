@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import { CardCompact } from "@/components/card-compact";
 import Heading from "@/components/heading";
 import { Spinner } from "@/components/spinner";
+import { getAuth } from "@/features/auth/queries/get-auth";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 import TicketUpsertForm from "@/features/ticket/components/ticket-upsert-form";
-import { getAuth } from "@/features/auth/queries/get-auth";
 import { SearchParams } from "@/features/ticket/search-params";
 
 type TicketsPageProps = {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 };
 
 const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
@@ -26,7 +26,7 @@ const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
       />
 
       <Suspense fallback={<Spinner />}>
-        <TicketList userId={user?.id} searchParams={searchParams} />
+        <TicketList userId={user?.id} searchParams={await searchParams} />
       </Suspense>
     </div>
   );

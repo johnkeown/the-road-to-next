@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
-import { CardCompact } from "@/components/card-compact";
-import TicketUpsertForm from "@/features/ticket/components/ticket-upsert-form";
-import { getTicket } from "@/features/auth/queries/get-ticket";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
-import { Breadcrumbs } from "@/components/breadcrumbs";
-import { homePath, ticketPath } from "@/paths";
 import { Separator } from "@radix-ui/react-separator";
+import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { CardCompact } from "@/components/card-compact";
+import { getAuth } from "@/features/auth/queries/get-auth";
+import { getTicket } from "@/features/auth/queries/get-ticket";
+import { isOwner } from "@/features/auth/utils/is-owner";
+import TicketUpsertForm from "@/features/ticket/components/ticket-upsert-form";
+import { homePath, ticketPath } from "@/paths";
 
 type TicketEditPageProps = {
   params: Promise<{

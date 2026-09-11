@@ -1,6 +1,11 @@
-import { signOut } from "@/features/auth/actions/sign-out";
 import { User as AuthUser } from "@prisma/client";
+import { Avatar } from "@radix-ui/react-avatar";
+import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { LucideLock, LucideLogOut, LucideUser } from "lucide-react";
+import Link from "next/link";
+import { signOut } from "@/features/auth/actions/sign-out";
+import { accountPasswordPath, accountProfilePath } from "@/paths";
+import { AvatarFallback } from "../../components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,11 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "../../components/ui/avatar";
-import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
-import { accountPasswordPath, accountProfilePath } from "@/paths";
-import Link from "next/link";
 
 type AccountDropdownProps = {
   user: AuthUser;

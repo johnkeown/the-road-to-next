@@ -3,7 +3,6 @@
 import { LucideTrash } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,

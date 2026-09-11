@@ -12,7 +12,7 @@ import {
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
-import { signInPath, ticketsPath } from "@/paths";
+import { ticketsPath } from "@/paths";
 import { toCent } from "@/utils/currency";
 
 const upsertTicketSchema = z.object({
