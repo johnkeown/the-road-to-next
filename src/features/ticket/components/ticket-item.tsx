@@ -1,4 +1,4 @@
-import { Ticket } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import clsx from "clsx";
 import {
   LucideMoreVertical,
@@ -18,13 +18,26 @@ import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
 import { TicketMoreMenu } from "./ticket-more-menu";
+import { getAuth } from "@/features/auth/queries/get-auth";
+import { isOwner } from "@/features/auth/utils/is-owner";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: Prisma.TicketGetPayload<{
+    include: {
+      user: {
+        select: {
+          username: true;
+        };
+      };
+    };
+  }>;
   isDetail: boolean;
 };
 
 const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
+  const { user } = await getAuth();
+  const isTicketOwner = isOwner(user, ticket);
+
   const detailButton = (
     <Button variant="outline" size="icon" asChild>
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -56,10 +69,10 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
     <div
       className={clsx("w-full flex gap-x-1", {
         "max-w-[580px]": isDetail,
-        "max-w-420px": !isDetail,
+        "max-w-[420px]": !isDetail,
       })}
     >
-      <Card key={ticket.id} className="w-full max-w-[420px]">
+      <Card key={ticket.id} className="w-full">
         <CardHeader>
           <CardTitle className="flex gap-x-2">
             <span>{TICKET_ICONS[ticket.status]}</span>
@@ -76,7 +89,9 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
           </span>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+          <p className="text-sm text-muted-foreground">
+            {ticket.deadline} by {ticket.user.username}
+          </p>
           <p className="text-sm text-muted-foreground">
             {toCurrencyFromCent(ticket.bounty)}
           </p>
@@ -85,13 +100,13 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
       <div className="flex flex-col gap-y-1">
         {isDetail ? (
           <>
-            {editButton}
-            {moreMenu}
+            {isTicketOwner && editButton}
+            {isTicketOwner && moreMenu}
           </>
         ) : (
           <>
             {detailButton}
-            {editButton}
+            {isTicketOwner && editButton}
           </>
         )}
       </div>
