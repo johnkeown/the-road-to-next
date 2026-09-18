@@ -32,7 +32,12 @@ const TicketList = async ({ userId, searchParams }: TicketListProps) => {
 
       {tickets.length ? (
         tickets.map((ticket) => (
-          <TicketItem key={ticket.id} ticket={ticket} isDetail={false} />
+          <TicketItem
+            key={ticket.id}
+            ticket={ticket}
+            isDetail={false}
+            comments={null}
+          />
         ))
       ) : (
         <Placeholder label="No tickets found" />
