@@ -13,13 +13,14 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
-import { AlertDialogFooter,AlertDialogHeader } from "./ui/alert-dialog";
+import { AlertDialogFooter, AlertDialogHeader } from "./ui/alert-dialog";
 
 type UseConfirmDialogProps = {
   title?: string;
   description?: string;
   action: () => Promise<ActionState>;
   trigger: React.ReactElement<{ onClick?: () => void }>;
+  onSuccess: (actionState: ActionState) => void;
 };
 
 const useConfirmDialog = ({
@@ -27,6 +28,7 @@ const useConfirmDialog = ({
   description = "This action cannot be undone. Make sure you understand the consequences.",
   action,
   trigger,
+  onSuccess,
 }: UseConfirmDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,6 +40,7 @@ const useConfirmDialog = ({
 
   const handleSuccess = () => {
     setIsOpen(false);
+    onSuccess?.(actionState);
   };
 
   const dialog = (

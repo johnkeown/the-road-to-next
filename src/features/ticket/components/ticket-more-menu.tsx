@@ -25,6 +25,7 @@ type TicketMoreMenuProps = {
 const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
   const [deleteButton, deleteDialog] = useConfirmDialog({
     action: deleteTicket.bind(null, ticket.id),
+    onSuccess: () => undefined,
     trigger: (
       <DropdownMenuItem>
         <LucideTrash className="h-4 w-4" />

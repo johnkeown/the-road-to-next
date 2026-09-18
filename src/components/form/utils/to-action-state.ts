@@ -1,24 +1,25 @@
 import * as z from "zod/v4";
 
-export type ActionState = {
+export type ActionState<T = unknown> = {
   status?: "SUCCESS" | "ERROR";
   message: string;
   payload?: FormData;
   fieldErrors: Record<string, string[] | undefined>;
   timestamp: number;
+  data?: T;
 };
 
-export const EMPTY_ACTION_STATE: ActionState = {
+export const EMPTY_ACTION_STATE: ActionState<undefined> = {
   message: "",
   fieldErrors: {},
   payload: undefined,
   timestamp: Date.now(),
 };
 
-export const fromErrorToActionState = (
+export const fromErrorToActionState = <T = unknown>(
   error: unknown,
   formData?: FormData,
-): ActionState => {
+): ActionState<T> => {
   if (error instanceof z.ZodError) {
     return {
       status: "ERROR",
@@ -46,16 +47,18 @@ export const fromErrorToActionState = (
   }
 };
 
-export const toActionState = (
+export const toActionState = <T = unknown>(
   status: ActionState["status"],
   message: string,
   formData?: FormData,
-): ActionState => {
+  data?: T,
+): ActionState<T> => {
   return {
     status,
     message,
     fieldErrors: {},
     payload: formData,
     timestamp: Date.now(),
+    data,
   };
 };
