@@ -5,4 +5,4 @@ export type Ticket = {
   title: string;
   content: string;
   status: TicketStatus;
-};
+} & { isOwner: boolean };

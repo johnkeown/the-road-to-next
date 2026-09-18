@@ -2,9 +2,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CardCompact } from "@/components/card-compact";
-import { getAuth } from "@/features/auth/queries/get-auth";
 import { getTicket } from "@/features/auth/queries/get-ticket";
-import { isOwner } from "@/features/auth/utils/is-owner";
 import TicketUpsertForm from "@/features/ticket/components/ticket-upsert-form";
 import { homePath, ticketPath } from "@/paths";
 
@@ -15,13 +13,11 @@ type TicketEditPageProps = {
 };
 
 const TicketEditPage = async ({ params }: TicketEditPageProps) => {
-  const { user } = await getAuth();
   const ticket = await getTicket((await params).ticketId);
 
   const isTicketFound = !!ticket;
-  const isTicketOwner = isOwner(user, ticket);
 
-  if (!isTicketFound || !isTicketOwner) {
+  if (!isTicketFound || !ticket.isOwner) {
     notFound();
   }
 

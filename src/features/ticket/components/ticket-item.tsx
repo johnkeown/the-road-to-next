@@ -1,3 +1,5 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import clsx from "clsx";
 import {
@@ -14,10 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
-import { Comments } from "@/features/comment/components/comments";
-import { CommentWithMetadata } from "@/features/comment/types";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
@@ -32,15 +30,12 @@ type TicketItemProps = {
         };
       };
     };
-  }>;
+  }> & { isOwner: boolean };
   isDetail: boolean;
-  comments: CommentWithMetadata[];
+  comments: React.ReactNode;
 };
 
-const TicketItem = async ({ ticket, isDetail, comments }: TicketItemProps) => {
-  const { user } = await getAuth();
-  const isTicketOwner = isOwner(user, ticket);
-
+const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
   const detailButton = (
     <Button variant="outline" size="icon" asChild>
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -49,15 +44,15 @@ const TicketItem = async ({ ticket, isDetail, comments }: TicketItemProps) => {
     </Button>
   );
 
-  const editButton = (
+  const editButton = ticket.isOwner ? (
     <Button variant="outline" size="icon" asChild>
       <Link prefetch href={ticketEditPath(ticket.id)}>
         <LucidePencil className="h-4 w-4" />
       </Link>
     </Button>
-  );
+  ) : null;
 
-  const moreMenu = (
+  const moreMenu = ticket.isOwner ? (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
@@ -66,7 +61,7 @@ const TicketItem = async ({ ticket, isDetail, comments }: TicketItemProps) => {
         </Button>
       }
     />
-  );
+  ) : null;
 
   return (
     <div
@@ -104,23 +99,19 @@ const TicketItem = async ({ ticket, isDetail, comments }: TicketItemProps) => {
         <div className="flex flex-col gap-y-1">
           {isDetail ? (
             <>
-              {isTicketOwner && editButton}
-              {isTicketOwner && moreMenu}
+              {editButton}
+              {moreMenu}
             </>
           ) : (
             <>
               {detailButton}
-              {isTicketOwner && editButton}
+              {editButton}
             </>
           )}
         </div>
       </div>
 
-      <div>
-        {isDetail ? (
-          <Comments ticketId={ticket.id} comments={comments} />
-        ) : null}
-      </div>
+      {comments}
     </div>
   );
 };
