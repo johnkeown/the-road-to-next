@@ -15,6 +15,15 @@ export const getComments = async (
 
   const where = {
     ticketId,
+    ...(cursor && {
+      OR: [
+        { createdAt: { lt: new Date(cursor.createdAt) } },
+        {
+          createdAt: new Date(cursor.createdAt),
+          id: { lt: cursor.id },
+        },
+      ],
+    }),
   };
 
   const take = 2;
@@ -24,10 +33,6 @@ export const getComments = async (
     prisma.comment.findMany({
       where,
       take: take + 1,
-      cursor: cursor
-        ? { createdAt: new Date(cursor.createdAt), id: cursor.id }
-        : undefined,
-      skip: cursor ? 1 : 0,
       include: {
         user: {
           select: {
